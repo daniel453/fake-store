@@ -2,18 +2,22 @@
 <!-- Header -->
 <header>
   <!-- navbar and menu -->
-  <nav class="shadow">
+  <nav class="shadow fixed w-full z-20 bg-gray-100 top-0">
     <div class="flex justify-between items-center py-4 px-10 container mx-auto">
       <div>
         <h1
           class="text-2xl font-bold bg-gradient-to-tr from-indigo-600 to-green-600 bg-clip-text text-transparent hover:cursor-pointer"
+          routerLink="home"
         >
           Fake store
         </h1>
       </div>
 
       <div>
-        <div class="hover:cursor-pointer sm:hidden">
+        <div
+          class="hover:cursor-pointer sm:hidden"
+          (click)="toggleModalMobile()"
+        >
           <span
             class="h-1 rounded-full block w-8 mb-1 bg-gradient-to-tr from-indigo-600 to-green-600"
           ></span>
@@ -34,30 +38,147 @@
               >
             </li>
             <li>
-              <a href="#" class="text-gray-700 hover:text-indigo-600 text-md"
-                >Licores</a
-              >
-            </li>
-            <li>
-              <a href="#" class="text-gray-700 hover:text-indigo-600 text-md"
-                >About</a
-              >
+              <app-cart-counter></app-cart-counter>
             </li>
           </ul>
-          <div class="md:flex items-center hidden space-x-4 ml-8 lg:ml-12">
-            <h1
+          <div class="sm:flex items-center hidden space-x-4 ml-8 lg:ml-12">
+            <a
+              routerLink="/profile"
               class="text-text-gray-600 py-2 hover:cursor-pointer hover:text-indigo-600"
+              *ngIf="email"
             >
-              LOGIN
-            </h1>
+              {{ email }}
+            </a>
             <h1
+              *ngIf="email"
+              class="text-text-gray-600 py-2 hover:cursor-pointer px-4 rounded text-white bg-gradient-to-tr from-indigo-600 to-green-600 hover:shadow-lg"
+              (click)="logOut()"
+            >
+              Cerrar sesión
+            </h1>
+            <a
+              class="text-text-gray-600 py-2 hover:cursor-pointer hover:text-indigo-600"
+              routerLink="/login"
+              *ngIf="email === null"
+            >
+              Iniciar sesión
+            </a>
+            <a
+              *ngIf="email === null"
+              routerLink="/register"
               class="text-text-gray-600 py-2 hover:cursor-pointer px-4 rounded text-white bg-gradient-to-tr from-indigo-600 to-green-600 hover:shadow-lg"
             >
-              SIGNUP
-            </h1>
+              Registrarse
+            </a>
           </div>
         </div>
       </div>
+    </div>
+    <!-- mobile menu -->
+    <!-- component -->
+    <div
+      class="w-full h-screen z-10"
+      [ngClass]="{
+        'fixed sm:hidden': modalMobileOpen,
+        hidden: !modalMobileOpen
+      }"
+    >
+      <aside class="w-full h-full" aria-label="Sidebar">
+        <div
+          class="w-full h-full px-3 py-4 overflow-y-auto rounded bg-gray-50 dark:bg-gray-800"
+        >
+          <ul class="space-y-2">
+            <li>
+              <a
+                href="#"
+                class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                <span class="flex-1 ml-3 whitespace-nowrap">Home</span>
+              </a>
+            </li>
+            <li>
+              <p
+                href="#"
+                class="flex items-center py-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                <app-cart-counter
+                  class="flex items-center whitespace-nowrap"
+                ></app-cart-counter>
+              </p>
+            </li>
+            <li *ngIf="email">
+              <button
+                (click)="logOut()"
+                class="flex items-center p-2 w-full text-left text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                <svg
+                  class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+                <span class="flex-1 ml-3 whitespace-nowrap">Cerrar sesión</span>
+              </button>
+            </li>
+            <li *ngIf="email">
+              <a
+                routerLink="/profile"
+                class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                <span class="flex-1 ml-3 whitespace-nowrap">{{ email }}</span>
+              </a>
+            </li>
+            <li *ngIf="email == null">
+              <a
+                routerLink="/login"
+                class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                <svg
+                  class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+                <span class="flex-1 ml-3 whitespace-nowrap"
+                  >Iniciar sesión</span
+                >
+              </a>
+            </li>
+            <li *ngIf="email == null">
+              <a
+                routerLink="/register"
+                class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                <svg
+                  class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM9 8H4v2h5V8z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+                <span class="flex-1 ml-3 whitespace-nowrap">registrarse</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </aside>
     </div>
   </nav>
 </header>

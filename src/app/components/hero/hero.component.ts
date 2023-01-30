@@ -20,6 +20,6 @@ export class HeroComponent {
     images: [''],
     price: 0
   }
-  @Input() categories:category[] = []
+  @Input() categories:category[] | null = null
   @Input() productLoading?:boolean
 }

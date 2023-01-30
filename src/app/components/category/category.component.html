@@ -1,15 +1,25 @@
 <div class="col-span-1">
   <div class="bg-white rounded-md">
     <h1
-      class="text-center text-xl my-4 bg-white py-2 rounded-md border-b-2 cursor-pointer text-gray-600"
+      class="text-center text-xl my-4 bg-white py-2 rounded-md border-b-2 text-gray-600"
     >
       Categorias
     </h1>
     <div class="bg-white rounded-md list-none text-center">
-      <li class="py-3 border-b-2" *ngFor="let category of categories">
-        <a href="#" class="list-none hover:text-indigo-600">{{
-          category.name
-        }}</a>
+      <li
+        class="py-3 border-b-2 cursor-pointer"
+        *ngFor="let category of categories"
+        [ngClass]="{ 'ring-indigo-600 ring ': category.id == categorySelected }"
+        (click)="changeCategory(category.id)"
+      >
+        <p
+          class="list-none hover:text-indigo-600"
+          [ngClass]="{
+            'text-indigo-600 font-semibold': category.id == categorySelected
+          }"
+        >
+          {{ category.name }}
+        </p>
       </li>
     </div>
   </div>
